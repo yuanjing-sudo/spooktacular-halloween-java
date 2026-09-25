@@ -5,6 +5,17 @@ Java expression of [yuanjing-sudo/spooktacular-halloween-app](https://github.com
 
 100% JDK, zero external dependencies. Swing UI + headless-tested logic.
 
+## Live web game (Java -> WebAssembly)
+
+Play now: **https://yuanjing-sudo.github.io/spooktacular-halloween-java/**
+
+`web/` holds the browser edition: rules in UI-free Java (`spooktacular.web.*`,
+algorithm twins of `Engine`, `GhostCapture`, `CandyCollection`,
+`MiniGames.PumpkinSmash`), Canvas shell in `Client.java`, compiled by TeaVM
+0.15.0 (`WEBASSEMBLY_GC`) to a real `classes.wasm` (27 KB) + loader in `docs/`.
+`WebCheck` (592 checks) proves same-seed RNG/maze identity with the desktop
+engine. See `web/README.md` for the mapping table and build steps.
+
 ## What was ported
 
 | Origin (Swift) | Java |

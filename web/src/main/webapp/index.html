@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spooktacular — Java/WASM Live Game</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body { margin: 0; background: #000; color: #e8e8e8;
+             font-family: monospace; text-align: center; }
+      #wrap { display: inline-block; margin: 8px auto; }
+      #hint { max-width: 720px; margin: 6px auto 16px; font-size: 13px; color: #9a8ac0; }
+      a { color: #ff8c00; }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="teavm/classes.wasm-runtime.js"></script>
+    <script>
+        async function main() {
+            // Java (spooktacular.web.*) compiled to WebAssembly via TeaVM 0.15.0 (WEBASSEMBLY_GC).
+            let teavm = await TeaVM.wasmGC.load("teavm/classes.wasm", {
+                stackDeobfuscator: { enabled: false }
+            });
+            teavm.exports.main([]);
+        }
+    </script>
+  </head>
+  <body onload="main()">
+    <div id="wrap"></div>
+    <div id="hint">Move: arrows / WASD &middot; ZAP: Z &middot; NET: X &middot; click lit pumpkins in bonus rounds.
+      Needs HTTP (not file://) and a WasmGC-capable browser (current Chrome/Edge/Firefox/Safari).
+      Sources: <a href="https://github.com/yuanjing-sudo/spooktacular-halloween-java/tree/main/web/src/main/java/spooktacular/web">web/src/main/java/spooktacular/web</a></div>
+  </body>
+</html>
