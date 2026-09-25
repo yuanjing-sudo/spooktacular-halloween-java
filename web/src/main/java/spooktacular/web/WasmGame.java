@@ -40,6 +40,7 @@ public final class WasmGame {
     public int level = 1;
     public int captured = 0;
     public int candyTaken = 0;
+    public int steps = 0;
     public final boolean[] smashLit = new boolean[9];
     public int smashTicks = 0;
     public double smashTimer = 0;
@@ -212,6 +213,7 @@ public final class WasmGame {
         if (maze.isOpen(nx, nz)) {
             px = nx;
             pz = nz;
+            steps++;
         }
     }
 

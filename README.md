@@ -9,12 +9,15 @@ Java expression of [yuanjing-sudo/spooktacular-halloween-app](https://github.com
 
 Play now: **https://yuanjing-sudo.github.io/spooktacular-halloween-java/**
 
-`web/` holds the browser edition: rules in UI-free Java (`spooktacular.web.*`,
-algorithm twins of `Engine`, `GhostCapture`, `CandyCollection`,
-`MiniGames.PumpkinSmash`), Canvas shell in `Client.java`, compiled by TeaVM
-0.15.0 (`WEBASSEMBLY_GC`) to a real `classes.wasm` (27 KB) + loader in `docs/`.
-`WebCheck` (592 checks) proves same-seed RNG/maze identity with the desktop
-engine. See `web/README.md` for the mapping table and build steps.
+`web/` holds the full browser edition — all 7 tabs (MAZE/CANDY/MINE/WORLD/EXPLORE/
+GAMES/GOALS): the REAL `engine`/`data`/`combat`/`quests`/`systems`/`app` sources
+(69 quests, 40 expeditions, 60 achievements, 25 ghosts, 18 candies, 14 fish,
+bestiary, codexes, Memory Match, Pumpkin Smash, GhostCapture duels, isometric
+voxel mine) compile UNCHANGED via TeaVM 0.15.0 (`WEBASSEMBLY_GC`) to a real
+`classes.wasm` (~216 KB) + loader in `docs/`. Only the Swing-bound shells are
+twinned (`WebMine`, `WebVoxel`, `WebManager`, localStorage `GameStore` shim).
+`WebCheck` (592) + `WebCheck2` (65) prove parity. See `web/README.md` for the
+full mapping table and build steps.
 
 ## What was ported
 

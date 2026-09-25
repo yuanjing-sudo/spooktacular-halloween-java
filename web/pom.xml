@@ -8,7 +8,7 @@
   <packaging>war</packaging>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <teavm.version>0.15.0</teavm.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -41,6 +41,61 @@
 
   <build>
     <plugins>
+      <!-- Copy the REAL desktop sources (engine/data/combat/quests/systems/app)
+           into the build; TeaVM tree-shakes from main(), so only referenced
+           classes reach WASM. Real GameStore (java.util.prefs) is excluded and
+           replaced by the localStorage-backed shim in src/main/java. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-desktop-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${project.build.directory}/desktop-src">
+                  <fileset dir="${project.basedir}/../src">
+                    <include name="spooktacular/engine/**"/>
+                    <include name="spooktacular/data/**"/>
+                    <include name="spooktacular/combat/**"/>
+                    <include name="spooktacular/quests/**"/>
+                    <include name="spooktacular/systems/**"/>
+                    <include name="spooktacular/app/Models.java"/>
+                    <include name="spooktacular/app/GhostCapture.java"/>
+                    <include name="spooktacular/app/MiniGames.java"/>
+                    <include name="spooktacular/app/SpookyMusic.java"/>
+                    <exclude name="**/systems/GameStore.java"/>
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>add-desktop-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/desktop-src</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <!-- Configure Java compiler to use Java 8 syntax  -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
