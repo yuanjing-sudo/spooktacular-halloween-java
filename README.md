@@ -16,8 +16,10 @@ Java expression of [yuanjing-sudo/spooktacular-halloween-app](https://github.com
 | `Sources/Ultimate/ArcadeGames.swift`, `ArcadeGames2.swift` | `spooktacular.app.MiniGames` (Memory Match + Pumpkin Smash, playable) |
 | `Sources/Ultimate/SpookyStore.swift` | `spooktacular.app.SpookyStore` |
 | `Sources/Ultimate/SpookyMusic.swift` | `spooktacular.app.SpookyMusic` |
-| `Sources/Ultimate/HauntedMaze.swift`, `TunnelMaze.swift`, `AbandonedMine.swift`, `AvatarWorld.swift`, `CemeteryOfShadows.swift`, … (71 files, ~2.3 MB) | `spooktacular.engine`, `spooktacular.systems`, `spooktacular.data`, `spooktacular.combat`, `spooktacular.quests`, `spooktacular.game` (exact engine port from `java-3d/`) + `spooktacular.swiftport.*` 1:1 file map (72 classes, one per Swift file) |
-| `Tests/SpookyLogicTests.swift`, `SpookyDeepTests.swift` | `spooktacular.game.TestEngine` (83 checks) + `spooktacular.app.AppTest` (27 checks) |
+| `Sources/Ultimate/HauntedMaze.swift`, `TunnelMaze.swift` (maze 3D) | `spooktacular.game.MazePanel` (software raycaster: textured walls, sprites, zbuffer, fog, minimap) + `spooktacular.systems.Raycaster` |
+| `Sources/Ultimate/AbandonedMine.swift` (SceneKit voxel mine) + `python-3d/mine3d_ursina.py` + `docs/mine3d.js` (mine 3D) | `spooktacular.game.VoxelMinePanel` (isometric software-3D voxel mine: 12x8x3 strata, Perlin bands, pick tiers, torch glow, fog) + `spooktacular.game.MineSim` (tycoon sim) |
+| `Sources/Ultimate/AvatarWorld.swift`, `CemeteryOfShadows.swift`, … (remaining files, ~2.3 MB total) | `spooktacular.engine`, `spooktacular.systems`, `spooktacular.data`, `spooktacular.combat`, `spooktacular.quests`, `spooktacular.game` (exact engine port from `java-3d/`) + `spooktacular.swiftport.*` 1:1 file map (72 classes, one per Swift file) |
+| `Tests/SpookyLogicTests.swift`, `SpookyDeepTests.swift` | `spooktacular.game.TestEngine` (83 checks) + `spooktacular.app.AppTest` (27 checks) + `spooktacular.game.VoxelMineTest` (52 checks) |
 | `docs/` web + `python-3d/` + `java-3d/` | behavior preserved in Swing tabs; see mapping in `spooktacular.swiftport.*.describe()` |
 
 ## Layout
@@ -34,7 +36,7 @@ src/spooktacular/swiftport/  <- 1 Java class per Swift file (72 files) — guara
 spooktacular-halloween-java\run.bat
 ```
 
-Runs headless tests (`TestEngine` + `AppTest`), then opens the Swing app (7 tabs: Capture, Candy, Engine, Potions, Music, Status; Engine tab itself holds Maze/Candy/Mine/World/Explore/Games/Achieve).
+Runs headless tests (`TestEngine` + `AppTest` + `VoxelMineTest`), then opens the Swing app (8 tabs: Capture, Candy, Engine, Mine 3D, Potions, Music, Status; Engine tab itself holds Maze/Candy/Mine/World/Explore/Games/Achieve).
 
 ## Run (macOS/Linux, JDK 17+)
 
@@ -43,6 +45,7 @@ cd spooktacular-halloween-java
 javac -encoding UTF-8 -d classes $(find src -name '*.java')
 java -cp classes spooktacular.game.TestEngine
 java -cp classes spooktacular.app.AppTest
+java -cp classes spooktacular.game.VoxelMineTest
 java -cp classes spooktacular.app.SpookyApp
 ```
 
@@ -50,6 +53,7 @@ java -cp classes spooktacular.app.SpookyApp
 
 - `TestEngine` — 83 engine checks (maze, A*, scoring, quests/expeditions/achievements, tycoon sim).
 - `AppTest` — 27 app-layer checks (capture battle, candy combos, brewing, memory/smash, store round-trip + corruption recovery, music switchboard, streaks).
+- `VoxelMineTest` — 52 voxel-mine checks (world gen, bedrock unbreakable, exposed/strata rule, pick-tier gate, gold/xp totals, per-block colors).
 
 ## How it was built
 

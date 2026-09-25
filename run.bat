@@ -12,4 +12,6 @@ if errorlevel 1 exit /b 1
 if errorlevel 1 exit /b 1
 "%JAVABIN%\java" -cp classes spooktacular.app.AppTest
 if errorlevel 1 exit /b 1
+"%JAVABIN%\java" -cp classes spooktacular.game.VoxelMineTest
+if errorlevel 1 exit /b 1
 "%JAVABIN%\java" -cp classes spooktacular.app.SpookyApp

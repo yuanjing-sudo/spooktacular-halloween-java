@@ -42,6 +42,7 @@ public final class SpookyApp {
         tabs.addTab("Capture", capturePanel());
         tabs.addTab("Candy", candyPanel());
         tabs.addTab("Engine", new Tabs().build()); // Maze/Mine/World/Explore/Games/Achieve engine
+        tabs.addTab("Mine 3D", new spooktacular.game.VoxelMinePanel());
         tabs.addTab("Potions", potionPanel());
         tabs.addTab("Music", musicPanel());
         tabs.addTab("Status", statusPanel());
